@@ -28,7 +28,7 @@ pipeline {
         stage('Backend Setup and Tests') {
             steps {
                 dir('backend') {
-                    bat 'py -3 -m venv .venv-ci'
+                    bat 'python -m venv .venv-ci'
                     bat '.venv-ci\\Scripts\\python.exe -m pip install --upgrade pip'
                     bat '.venv-ci\\Scripts\\python.exe -m pip install -r requirements.txt'
                     bat '.venv-ci\\Scripts\\python.exe -m pytest -v --junitxml=junit-results.xml'
