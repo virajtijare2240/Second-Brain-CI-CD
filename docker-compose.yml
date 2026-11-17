@@ -1,0 +1,39 @@
+services:
+  backend:
+    image: second-brain-backend:local
+    build:
+      context: ./backend
+    environment:
+      APP_NAME: Second Brain AI
+      ENVIRONMENT: production
+      DEBUG: "False"
+      HOST: 0.0.0.0
+      PORT: 8000
+      DATABASE_URL: sqlite:////app/data/second_brain.db
+      SECRET_KEY: ${SECRET_KEY:-replace-this-before-public-deployment}
+      UPLOAD_DIR: uploads
+      CORS_ORIGINS: http://localhost:8081
+    volumes:
+      - second_brain_data:/app/data
+      - second_brain_uploads:/app/uploads
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    image: second-brain-frontend:local
+    build:
+      context: ./frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "8081:80"
+
+volumes:
+  second_brain_data:
+  second_brain_uploads:

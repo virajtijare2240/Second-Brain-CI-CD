@@ -1,0 +1,23 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+
+# Node
+node_modules/
+dist/
+
+# Secrets and local data
+.env
+backend/.env
+*.db
+*.db-shm
+*.db-wal
+uploads/
+backend/uploads/
+
+# CI local environment
+backend/.venv-ci/
